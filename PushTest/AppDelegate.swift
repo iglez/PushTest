@@ -17,7 +17,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
-        application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: (.Badge | .Sound | .Alert), categories: nil));
+        let types:UIUserNotificationType = ([.Alert, .Sound, .Badge])
+        let settings:UIUserNotificationSettings = UIUserNotificationSettings(forTypes: types, categories: nil)
+        application.registerUserNotificationSettings(settings)
+        //application.registerUserNotificationSettings(UIUserNotificationSettings(forTypes: (.Badge | .Sound | .Alert), categories: nil));
         application.registerForRemoteNotifications()
    
         if let a = launchOptions {
@@ -31,24 +34,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func addMessageFromRemoteNotification(json: NSDictionary){
-        let rootVC = window?.rootViewController as ViewController
+        let rootVC = window?.rootViewController as! ViewController
         
         
-        let uialornk = json["UIApplicationLaunchOptionsRemoteNotificationKey"] as NSDictionary
-        let aps: NSDictionary = uialornk["aps"] as NSDictionary
-        let alert: NSString = aps["alert"] as NSString
+        let uialornk = json["UIApplicationLaunchOptionsRemoteNotificationKey"] as! NSDictionary
+        let aps: NSDictionary = uialornk["aps"] as! NSDictionary
+        let alert: NSString = aps["alert"] as! NSString
         
         rootVC.theLabel = "\(alert)"
     }
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         
-        println("My Token is: \(deviceToken)")
+        print("My Token is: \(deviceToken)")
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
         
-        println("Failed to get token, error: \(error)")
+        print("Failed to get token, error: \(error)")
     }
     
     
@@ -57,11 +60,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //println("didReceiveRemoteNotification userInfo: \(userInfo)")
         // aps: { alert = "My first push notification !!!!"; sound = default; }
         
-        let json: NSDictionary = userInfo["aps"] as NSDictionary
-        let alert: NSString = json["alert"] as NSString
+        let json: NSDictionary = userInfo["aps"] as! NSDictionary
+        let alert: NSString = json["alert"] as! NSString
         //println(alert)
         
-        let rootVC = window?.rootViewController as ViewController
+        let rootVC = window?.rootViewController as! ViewController
         rootVC.refresh(alert)
         
     }

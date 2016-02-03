@@ -26,7 +26,7 @@ class ViewController: UIViewController {
     }
 
     func refresh(text: NSString){
-        notificationLabel.text = text
+        notificationLabel.text = text as String
     }
 
 }
